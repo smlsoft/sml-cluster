@@ -2,6 +2,38 @@
 
 ดู [คู่มือ Deploy และลำดับการติดตั้ง](INSTALL.md) สำหรับ requirements และขั้นตอน deploy YAML จนถึงการทดสอบบริการ
 
+## ภาพรวมระบบ
+
+```mermaid
+flowchart LR
+    subgraph K8S["Kubernetes · namespace: smlerp"]
+        ERPService["ERP Service · HTTP 8080"]
+        ERP["ERP<br/>smlerp-service"]
+        Stock["Stock Process<br/>smlerp-stock-process-service"]
+        Config["Shared config PVC<br/>smlerp-config-pvc · /etc/config"]
+        Admin["pgAdmin · ส่วนเสริม"]
+
+        ERPService --> ERP
+        ERP --> Config
+        Stock --> Config
+    end
+
+    Broker["STOMP broker"]
+    DB[("PostgreSQL")]
+    NFS["NFS Storage"]
+
+    ERP --> Broker
+    Broker --> Stock
+    ERP -.-> DB
+    Stock -.-> DB
+    Admin -.-> DB
+    Config --> NFS
+```
+
+- **ERP** ให้บริการ HTTP และส่งงานผ่าน **STOMP broker** ให้ **Stock Process** รับไปประมวลผล โดยทั้งสองแอป mount config จาก PVC เดียวกันบน NFS
+- **เส้นประไป PostgreSQL** แสดงการเชื่อมต่อที่ต้องตั้งค่าตามคู่มือติดตั้ง โดย repository ยังไม่มี config ฐานข้อมูลที่ใช้งานจริง ส่วน **pgAdmin** เป็นเครื่องมือเสริมสำหรับจัดการฐานข้อมูล
+- **ERP Service** เริ่มจาก ClusterIP; หากต้องเปิดให้เข้าถึงจากภายนอก ให้เลือก LoadBalancer หรือ Ingress ตาม [คู่มือติดตั้ง](INSTALL.md#9-ทางเลือก-เปิดบริการผ่าน-loadbalancer-หรือ-ingress) ส่วน Stock Process ยังไม่มี Kubernetes Service ใน repository
+- **PostgreSQL, STOMP broker และ NFS** ต้องเตรียมให้แอปเข้าถึงได้แยกจาก manifest ของแอป ตัวอย่าง RabbitMQ ใน `rabbitmq/` ยังไม่ได้ตั้งค่า STOMP จึงยังยืนยันไม่ได้ว่าใช้แทน broker ในภาพได้
 
 ## Pre-requisites
 
