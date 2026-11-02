@@ -49,9 +49,3 @@ flowchart LR
 7. **Deploy Stock Process** — deploy `stockprocess-service/smlerp-stock-process-service-deployment.yaml` และรอ rollout สำเร็จ
 8. **ทดสอบบริการ** — ใช้ port-forward ตรวจ health ของทั้งสองบริการ แล้วทดสอบการเชื่อมต่อฐานข้อมูลและการส่ง/รับงานผ่าน broker
 
-เมื่อตัวแอปพร้อมแล้ว จึง deploy ส่วนเสริมตามต้องการ:
-
-- **pgAdmin** — deploy `pgadmin/pgadmin-service.yaml` แล้วตามด้วย `pgadmin/pgadmin-deployment.yaml`
-- **เปิด ERP ให้เข้าถึงจากภายนอก** — เลือก LoadBalancer หรือ Ingress ตามคู่มือ โดยตรวจและปรับ Ingress ก่อน deploy
-
-ไฟล์ใน `postgresql/` และ `rabbitmq/` เป็น Docker Compose ให้เตรียมแยกต่างหาก ไม่ใช้ `kubectl apply`
