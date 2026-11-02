@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: imex-erp-service
-  namespace: imexerp-prd
+  name: smlerp-service
+  namespace: smlerp
   # annotations:
   #   nginx.ingress.kubernetes.io/rewrite-target: /$2
   #   nginx.ingress.kubernetes.io/configuration-snippet: |
@@ -16,6 +16,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: imex-erp-service
+                name: smlerp-service
                 port:
                   number: 80

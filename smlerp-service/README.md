@@ -1,5 +1,5 @@
 
-# IMEX ERP Service deployment
+# SMLERP Service deployment
 
 1. Create VPC
 2. Create Service Secert

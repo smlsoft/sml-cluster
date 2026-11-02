@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: imex-erp-service
-  namespace: imexerp-prd
+  name: smlerp-service
+  namespace: smlerp
 spec:
   type: ClusterIP
   ports:
     - port: 8080
   selector: 
-    app: imex-erp-service
+    app: smlerp-service

@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: imex-erp-stock-process-service
+  name: smlerp-stock-process-service
   labels:
-    app: imex-erp-stock-process-service
-  namespace: imexerp-prd
+    app: smlerp-stock-process-service
+  namespace: smlerp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: imex-erp-stock-process-service
+      app: smlerp-stock-process-service
   template:
     metadata:
       labels:
-        app: imex-erp-stock-process-service
+        app: smlerp-stock-process-service
     spec:
       containers:
-        - name: imex-erp-stock-process-service
+        - name: smlerp-stock-process-service
           image: ghcr.io/smlsoft/smljavawebservice:3.9.14-jdk11
           # resources:
           #   requests:
@@ -45,8 +45,8 @@ spec:
             initialDelaySeconds: 30
           envFrom:
           - secretRef:
-              name: imex-erp-stock-process-service-secret
+              name: smlerp-stock-process-service-secret
       volumes:
       - name: config-volume
         persistentVolumeClaim:
-          claimName: imexerp-config-pvc
+          claimName: smlerp-config-pvc

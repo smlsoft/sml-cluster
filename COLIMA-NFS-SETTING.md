@@ -95,6 +95,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: test-nfs-pvc
+  namespace: smlerp
 spec:
   accessModes:
     - ReadWriteMany
@@ -107,6 +108,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: test-nfs-pod
+  namespace: smlerp
 spec:
   containers:
     - name: test-nfs-pod
@@ -123,9 +125,10 @@ spec:
 
 2. Create PVC & POD
 ```
+kubectl create namespace smlerp --dry-run=client -o yaml | kubectl apply -f -
 kubectl apply -f pvc_nfs/test-nfs.yaml
 
-kubectl get pods
+kubectl get pods -n smlerp
 ```
 
 
@@ -133,7 +136,7 @@ kubectl get pods
 3. Check files
 
 ```
-cat $HOME/k8s-nfs-share/default-test-nfs-pvc-pvc-*/test.txt
+cat $HOME/k8s-nfs-share/smlerp-test-nfs-pvc-pvc-*/test.txt
 ```
 
 
